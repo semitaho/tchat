@@ -16,17 +16,33 @@ module.exports = function(grunt){
 
   	copy: {
   		main: {
-expand: true,
+  			expand: true,
   		  	cwd: './src/',
-    		src: '**',
+    		src: ['**/*.js','**/*.css', '**/*.jpg'],
     		dest: 'www/'
+  		}
+	},
+
+	jade: {
+		compile : {
+			options: {
+				pretty: true
+
+    		},
+    		files : [ {
+    			cwd : 'src',
+    			src : '**/*.jade',
+    			expand: true,
+    			ext: ".html",
+    			dest: 'www'
+    		}]
   		}
 	},
 
   	watch: {
   		all: {
-  			files: [ '**/*.html'],
-  			tasks: ['copy'],
+  			files: [ '**/*.jade', './src/**/*.js', './src/**/*.css'],
+  			tasks: ['jade','copy'],
   			options: {
         		nospawn: true,
         		livereload: true
@@ -41,6 +57,8 @@ expand: true,
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-jade');
+
   grunt.registerTask('default', ['connect']);
   grunt.registerTask('serve', ['connect:server', 'watch']);
 
