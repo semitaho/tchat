@@ -1,0 +1,24 @@
+{
+  "name": "tchat",
+  "version": "1.0.0",
+  "homepage": "https://github.com/semitaho/tchat",
+  "authors": [
+    "Toni Aho <toni.aho@elisanet.fi [branch]>"
+  ],
+  "description": "tChat HTML5",
+  "main": "src/index.html",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.26"
+  }
+}

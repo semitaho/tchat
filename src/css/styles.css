@@ -1,3 +1,95 @@
 h1 {
-	font-size: 4em;
+	font-size: 3em;
+}
+
+header {
+	background-color: #6d84b4;
+	color: white;
+	position: fixed;
+	top:0;
+	right: 0;
+	left: 0;
+	height: 25%;
+
+}
+.content {
+	border: 1px solid black;
+	width: 100%;
+	background: gray;
+}
+
+footer {
+	position: fixed;
+	bottom:0;
+	right: 0;
+	left: 0;
+	height: 15%;
+	background: #efefef;
+
+}
+
+.text {
+	margin-left: 20%;
+	margin-right: 20%;
+	margin-top: 20;
+	margin-bottom: 13%;
+	width: 70%;
+	text-align: center;
+}
+
+section {
+	left:0;
+	right: 0;
+	position: absolute;
+	bottom: 0;
+	top: 25%;
+	width: 100%;
+	background: white;
+	overflow-y: scroll;
+
+}
+
+.chat {
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+body, html {
+	height: 100%;
+}
+
+.message {
+	margin-bottom: 5%;
+	padding: 1%;
+	background: lightBlue;
+}
+
+.henkilo {
+
+	width: 200px;
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+	background-color: #fff;
+	border: 8px solid #666;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	-webkit-box-shadow: 2px 2px 4px #888;
+	-moz-box-shadow: 2px 2px 4px #888;
+	box-shadow: 2px 2px 4px #888;
+	//height: 100%;
+	//width: 30%;
+	//background-repeat: no-repeat;
+	//background-size: contain;
+}
+
+.hanna {
+	background-image: url('../images/hanna.jpg');
+
+}
+
+.ville {
+	background-image: url('../images/ville.jpg');
+
 }

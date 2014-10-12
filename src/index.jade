@@ -1,0 +1,12 @@
+doctype html
+html(lang="en", ng-app="tchat-app")
+	head
+		title tChat
+		link(rel='stylesheet', href='css/styles.css')
+		script(src="components/angular/angular.js")
+		script(src="js/tchat.js")
+		script(src="js/tchatController.js")
+	body(ng-controller="tchat-controller")
+		include henkilot
+		include keskustelu
+		include actionbar
