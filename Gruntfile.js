@@ -1,6 +1,14 @@
 module.exports = function(grunt){
 	// Project configuration.
   grunt.initConfig({
+
+  	express: {
+  		dev: {
+      options: {
+        script: 'server/app.js'
+      }
+    }
+  	},
   	connect: {
   		server: {
   			options : {
@@ -54,12 +62,12 @@ module.exports = function(grunt){
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jade');
 
   grunt.registerTask('default', ['connect']);
-  grunt.registerTask('serve', ['connect:server', 'watch']);
+  grunt.registerTask('server', ['express', 'watch']);
 
 }
