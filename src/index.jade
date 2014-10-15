@@ -4,14 +4,18 @@ html(lang="en", ng-app="tchat-app")
 		title tChat
 		link(rel='stylesheet', href='css/styles.css')
 		script(src="components/angular/angular.js")
+		script(src="components/angular-animate/angular-animate.js")
+		script(src="components/angular-ui-router/release/angular-ui-router.js")
+
 		script(src="js/tchat.js")
 		script(src="js/tchatService.js")
+		script(src="js/auth.js")
+
 		script(src="js/autoScrollDirective.js")
 
 		script(src="js/enterDirective.js")
 
 		script(src="js/tchatController.js")
 	body(ng-controller="tchat-controller")
-		include henkilot
-		include keskustelu
-		include actionbar
+	div(ui-view)
+		

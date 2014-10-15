@@ -4,9 +4,14 @@ angular.module('tchat-app').controller('tchat-controller', ['$scope', 'tchatServ
 
 	$scope.viestit = [];
 
+
+
+
 	$scope.receive = function(e){
+		var datamsg = angular.fromJson(e.data);
+		console.log('viesti: '+datamsg);
 		$scope.$apply(function(){
-			var viesti = {'own': false, 'message': e.data};
+			var viesti = {'own': tchatService.uuid === datamsg.uuid , 'message': datamsg.message};
 			$scope.viestit.push(viesti);
 		});
 	};

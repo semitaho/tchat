@@ -9,13 +9,23 @@ header {
 	top:0;
 	right: 0;
 	left: 0;
-	height: 25%;
+	height: 3em;
 
 }
 .content {
 	border: 1px solid black;
 	width: 100%;
 	background: gray;
+}
+
+.message-animate.ng-enter {
+	-webkit-transition: 1s linear all; /* Chrome */
+	transition: 1s linear all;
+	opacity: 0;
+}
+ 
+.message-animate.ng-enter.ng-enter-active {
+	opacity: 1;
 }
 
 footer {
@@ -44,7 +54,7 @@ section {
 	right: 0;
 	position: absolute;
 	bottom: 4em;
-	top: 25%;
+	top: 3em;
 	width: 100%;
 	background: white;
 	overflow-y: scroll;
@@ -61,17 +71,21 @@ body, html {
 }
 
 .message {
+
 	margin-bottom: 3%;
 	padding: 1%;
 	background: lightBlue;
 }
 
 .message.friend {
-	margin-right: 30%;
+	border-top-right-radius: 2em;
+	border-bottom-right-radius: 2em;
+
+	margin-right: 50%;
 }
 
 .message.own {
-	margin-left: 30%;
+	margin-left: 50%;
 }
 
 

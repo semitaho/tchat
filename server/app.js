@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 app.use(express.static(__dirname + '/../www'));
+var bodyParser = require('body-parser')
+app.use(bodyParser.json());
 app.listen(9001);
 
 var router =express.Router();
@@ -26,17 +28,19 @@ app.get('/backend', function(req,res){
 	 connections.push(res);
 	
 
-}).get('/communicate/:text', function(req,res){
-	var text = req.params.text;
-	messages.push(req.params.text);
+}).post('/communicate', function(req,res){
+	var text = req.body;
+	messages.push(text);
 	res.send(text);
+	//var message = {own: true, message: text};
 	receive(text);
 });
 
-function receive(text){
+function receive(body){
+	var dataToSent = JSON.stringify(body);
 	connections.forEach(function(res){
-		res.write('id: '+new Date().toLocaleTimeString()+'\n');
-	 	res.write('data:'+text+'\n\n');
+		res.write('id:'+new Date()+"\n");
+	 	res.write('data:'+dataToSent+'\n\n');
  	})
 }
 

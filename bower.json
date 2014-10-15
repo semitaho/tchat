@@ -20,5 +20,9 @@
   ],
   "dependencies": {
     "angular": "~1.2.26"
+  },
+  "devDependencies": {
+    "angular-animate": "~1.2.26",
+    "angular-ui-router": "~0.2.11"
   }
 }
