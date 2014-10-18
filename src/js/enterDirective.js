@@ -3,8 +3,7 @@ angular.module('tchat-app').directive('ngEnter', ['tchatService',function(tchatS
 		link: function(scope,element){ 
 
 			scope.say = function(){
-				console.log('aaa');
-				tchatService.communicate(scope.message);
+				tchatService.communicate('#test1',scope.message);
 				scope.message = '';
 			};
 

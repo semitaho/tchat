@@ -1,2 +1,4 @@
 section(auto-scroll, id="discussion")
-  div.message(ng-repeat="viesti in viestit track by $index",  class="message-animate", ng-bind="viesti.message", ng-class="{own: viesti.own, friend: !viesti.own}") 
+  div.message(ng-repeat="viesti in viestit track by $index",  class="message-animate")
+    div(ng-bind="viesti.message", ng-class="{own: viesti.own, friend: !viesti.own}") 
+    span(ng-bind="viesti.nick")

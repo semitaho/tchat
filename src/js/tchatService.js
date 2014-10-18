@@ -1,5 +1,4 @@
-angular.module('tchat-app').factory('tchatService', ['$http',function($http){
-    var source = new EventSource('/backend');
+angular.module('tchat-app').factory('tchatService', ['$http', 'Auth',function($http, Auth){
    
     
 
@@ -17,11 +16,14 @@ angular.module('tchat-app').factory('tchatService', ['$http',function($http){
 	return {
 		uuid :  ouid,
 
-		setOnMessageCallback : function(callback){
+		suscribe: function(callback){
+			console.log('suscribing...');
+			var source = new EventSource('/backend/'+ouid);
 			source.onmessage = callback;
+
 		},
-		communicate : function(text, doneCallback){
-			var data = {'message' : text, 'uuid' : this.uuid};
+		communicate : function(context, text, doneCallback){
+			var data = {'message' : text, 'uuid' : this.uuid, 'context' : context, 'nick': Auth.get()};
 			$http.post('/communicate', data);
 		}
 	};

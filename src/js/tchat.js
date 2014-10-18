@@ -6,7 +6,8 @@ app.config(function($stateProvider, $urlRouterProvider){
 
 	$stateProvider.state('register', {
 		url: '/register',
-		templateUrl: 'register.html'
+		templateUrl: 'register.html',
+		controller: 'LoginController'
 	});
 
 	$stateProvider.state('main', {
@@ -22,13 +23,14 @@ app.run(['$rootScope', '$state', 'Auth', function($rootScope, $state, Auth){
 			if (toState.name === 'main'){
 				return;
 			}
+			event.preventDefault();
 			$state.go('main');
 		} else {
 			if (toState.name === 'register'){
 				return;
 			}
+			event.preventDefault();
 			$state.go('register');
-
 		}
 	});
 }]);

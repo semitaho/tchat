@@ -6,18 +6,17 @@ app.use(bodyParser.json());
 app.listen(9001);
 
 var router =express.Router();
-var messages = [];
-var connections = [];
-app.get('/backend', function(req,res){
+var suscribers = [];
+app.get('/backend/:uuid', function(req,res){
 	 req.connection.addListener("close", function () {
 	 	console.log('closing connection...');
-	 	connections.forEach(function(response, index){
-	 		if (res === response){
-	 			connections.splice(index, 1);
+	 	suscribers.forEach(function(suscriber, index){
+	 		if (res ===  suscriber.response){
+	 			suscribers.splice(index, 1);
 	 		} 
 	 	});
 
-	 	console.log('size after removal: '+connections.length);
+	 	console.log('size after removal: '+suscribers.length);
    
     }, false);
 	 res.writeHead(200, {
@@ -25,23 +24,36 @@ app.get('/backend', function(req,res){
 	 	'Cache-Control': 'no-cache',
 	 	'Connection': 'keep-alive'
   	});
-	 connections.push(res);
+	 var suscriber = {uuid: req.params.uuid, response : res, contexts : []};
+	 console.log('new suscriber: '+suscriber.uuid);
+	 suscribers.push(suscriber);
 	
 
 }).post('/communicate', function(req,res){
 	var text = req.body;
-	messages.push(text);
-	res.send(text);
+	console.log('text: '+JSON.stringify(text));
+	receive(text)
+//	messages.push(text);
+//	res.send(text);
 	//var message = {own: true, message: text};
-	receive(text);
+//	receive(text);
 });
 
 function receive(body){
 	var dataToSent = JSON.stringify(body);
-	connections.forEach(function(res){
-		res.write('id:'+new Date()+"\n");
-	 	res.write('data:'+dataToSent+'\n\n');
- 	})
+	suscribers.forEach(function(suscriber){
+		if (suscriber.uuid === body.uuid){
+			if (suscriber.contexts.indexOf(body.context) === -1){
+				console.log('not found: creating ctx: '+body.context);
+				suscriber.contexts.push(body.context);
+			}
+		}
+
+		if (suscriber.contexts.indexOf(body.context) !== -1){
+			suscriber.response.write('id:'+new Date()+'\n');
+			suscriber.response.write('data:'+dataToSent+'\n\n');
+		}
+	});
 }
 
 
