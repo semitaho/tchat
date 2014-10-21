@@ -1,29 +1,24 @@
 angular.module('tchat-app').factory('tchatService', ['$http', 'Auth',function($http, Auth){
    
     
-
-    function generateUUID(){
-    	var d = new Date().getTime();
-    	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = (d + Math.random()*16)%16 | 0;
-        d = Math.floor(d/16);
-        return (c=='x' ? r : (r&0x7|0x8)).toString(16);
-    });
-    return uuid;
-	};
-
-	var ouid = generateUUID();
 	return {
-		uuid :  ouid,
+		uuid :  null,
 
-		suscribe: function(callback){
+		suscribe: function(connectedCallback, messageCallback){
 			console.log('suscribing...');
-			var source = new EventSource('/backend/'+ouid);
-			source.onmessage = callback;
+			var source = new EventSource('/backend');
+			source.addEventListener('onconnect',connectedCallback);
+			source.onmessage = messageCallback;
+
 
 		},
+
+		addContext : function(context, doneCallback){
+			var contextEncoded = encodeURIComponent(context);
+			$http.get("/addcontext/"+this.uuid+"/"+contextEncoded).success(doneCallback);
+		},
 		communicate : function(context, text, doneCallback){
-			var data = {'message' : text, 'uuid' : this.uuid, 'context' : context, 'nick': Auth.get()};
+			var data = {'message' : text, 'uuid' : this.uuid, 'timestamp' : Date.now(), 'context' : context, 'nick': Auth.get()};
 			$http.post('/communicate', data);
 		}
 	};

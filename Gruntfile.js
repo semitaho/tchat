@@ -26,7 +26,7 @@ module.exports = function(grunt){
   		main: {
   			expand: true,
   		  	cwd: './src/',
-    		src: ['**/*.js','**/*.css', '**/*.jpg'],
+    		src: ['**/*.js','**/*.css', '**/*.jpg', '**/*.svg', '**/font/**'],
     		dest: 'www/'
   		}
 	},
@@ -68,6 +68,6 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-contrib-jade');
 
   grunt.registerTask('default', ['connect']);
-  grunt.registerTask('server', ['express', 'watch']);
+  grunt.registerTask('server', ['jade', 'copy', 'express', 'watch']);
 
 }

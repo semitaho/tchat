@@ -1,14 +1,22 @@
 doctype html
 html(lang="en", ng-app="tchat-app")
 	head
-		title tChat
+		title tChat		
 		link(rel='stylesheet', href='css/styles.css')
+		meta(content="IE=edge,chrome=1",http-equiv="X-UA-Compatible")
+		meta(content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0,user-scalable=no", name="viewport")
+
 		script(src="components/angular/angular.js")
+		script(src="components/angular-touch/angular-touch.js")
+
 		script(src="components/angular-animate/angular-animate.js")
 		script(src="components/angular-ui-router/release/angular-ui-router.js")
 
 		script(src="js/tchat.js")
 		script(src="js/tchatService.js")
+		script(src="js/messageDate.js")
+		script(src="js/navigationController.js")
+
 		script(src="js/auth.js")
 
 		script(src="js/autoScrollDirective.js")

@@ -1,4 +1,8 @@
-var app= angular.module('tchat-app', ['ngAnimate', 'ui.router']);
+Array.prototype.move = function(from, to) {
+    this.splice(to, 0, this.splice(from, 1)[0]);
+};
+
+var app= angular.module('tchat-app', ['ngAnimate', 'ngTouch', 'ui.router']);
 
 app.config(function($stateProvider, $urlRouterProvider){
 

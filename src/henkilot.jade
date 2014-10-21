@@ -1,2 +1,7 @@
-header
-	//.henkilo(class="{{henkilo}}",ng-repeat="henkilo in henkilot track by $index")
+header(ng-controller="navigationController")
+	ul.contextbar
+		li(ng-repeat="ctx in contexts", ng-show="show(ctx);", ng-class="{selected: isActive(ctx)}", ng-click="toggle(ctx);")
+			.svg
+			a(ng-bind="ctx.context",href="javascript:void(0);")
+			a.remove(href="javascript:void(0);", ng-click="remove(context.context);" ) &#10008;
+			

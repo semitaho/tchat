@@ -15,6 +15,7 @@
     "grunt-contrib-copy": "~0.6.0",
     "grunt-contrib-jade": "~0.13.0",
     "grunt-express-server": "~0.4.19",
-    "body-parser": "~1.9.0"
+    "body-parser": "~1.9.0",
+    "array.prototype.find": "~1.0.0"
   }
 }
