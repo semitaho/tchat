@@ -1,2 +1,12 @@
 .login
-	input(type="text", ng-model="nick", placeholder="Syötä nimimerkki" ng-blur="login()")
+  ng-form(name="registerform", novalidate)
+    .user
+      label(for="nick") Nimimerkki
+      input(ng-required="true",id="nick", type="text", ng-model="nick", placeholder="Syötä nimimerkki" )
+    .mail
+      label(for="email") Sähköposti
+      input(type="email", id="email", ng-model="email", ng-required="true", placeholder="Syötä sähköposti")
+    .register
+      div
+      button(ng-click="login();") Rekisteröidy  
+

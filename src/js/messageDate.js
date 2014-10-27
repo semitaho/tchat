@@ -22,7 +22,6 @@ angular.module('tchat-app').filter('messageDateFilter', ['$filter',function($fil
 		pvmtext += ' klo ';
 		pvmtext += $filter('date')(input, 'HH:mm');
 		var current = new Date(input);
-		console.log('date:'+current);
 		return pvmtext;
 	};
 

@@ -1,6 +1,18 @@
 
 require('array.prototype.find');
 var express = require('express');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://tchatuser:tchat123@ds045970.mongolab.com:45970/tchatdb');
+
+var Schema = mongoose.Schema;  
+
+var UserModel = new Schema({  
+    nick: { type: String, required: true },  
+    email: { type: String, required: true }, 
+});
+
+var User = mongoose.model('User', UserModel);
+
 var app = express();
 app.use(express.static(__dirname + '/../www'));
 var bodyParser = require('body-parser')
@@ -15,7 +27,27 @@ app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
 });
-app.get('/backend', function(req,res){
+
+app.post('/register', function(req, res){
+	var body = req.body;
+
+	User.findOne({'nick' : body.nick}).select('id').exec(function(err, done){
+		if (err){
+			console.log('something went wrong!');
+		} else {
+			if (done === null || done === undefined){
+				console.log('no results found...');
+			} else {
+				console.log('got something: '+done._id);
+				res.write(done._id.toString());
+				res.end();
+			}
+		}
+
+	});
+});
+
+app.get('/backend/:uuid', function(req,res){
 	 req.connection.addListener("close", function () {
 	 	console.log('closing connection...');
 	 	suscribers.forEach(function(suscriber, index){
@@ -32,10 +64,9 @@ app.get('/backend', function(req,res){
 	 	'Cache-Control': 'no-cache',
 	 	'Connection': 'keep-alive'
   	});
-	 	var uuid = generateUUID();
-
+	 var uuid = req.params.uuid;
 	 var suscriber = {uuid: uuid, response : res, contexts : []};
-	 console.log('new suscriber: '+suscriber.uuid);
+	 console.log('new suscriber: '+uuid);
 	 suscribers.push(suscriber);
 	 connected(res, uuid);
 	
@@ -43,7 +74,8 @@ app.get('/backend', function(req,res){
 }).post('/communicate', function(req,res){
 	var text = req.body;
 	console.log('text: '+JSON.stringify(text));
-	receive(text)
+	receive(text);
+	res.end();
 //	messages.push(text);
 //	res.send(text);
 	//var message = {own: true, message: text};
@@ -77,7 +109,9 @@ function connected(res,uuid){
 	res.write('id:'+Date.now()+'\n');
 	res.write('event:onconnect\n');
 	res.write('data:'+uuid+'\n\n');
-};
+}
+
+
 function getSuscriberByUuid(uuid){
 	var suscriber = suscribers.find(function(suscriber){
 		return suscriber.uuid === uuid;

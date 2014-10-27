@@ -1,7 +1,7 @@
-angular.module('tchat-app').controller('navigationController',  ['$scope', '$filter',function($scope,$filter){
-	$scope.contexts = [];	
+angular.module('tchat-app').controller('navigationController',  ['$scope', '$filter', 'contextService','tchatService', function($scope,$filter, contextService, tchatService){
+	$scope.contexts = contextService.contexts;
 
-	$scope.contextActive = {};
+	$scope.contextActive = contextService.defaultContext;
 
 	$scope.toggleMenu = false;
 	$scope.toggle = function(ctx){
@@ -10,32 +10,31 @@ angular.module('tchat-app').controller('navigationController',  ['$scope', '$fil
 		if (ctx.context === $scope.contextActive.context){
 			return;
 		}
-		$scope.contextActive = ctx;
 		var movingChannelIndex = -1;
 		angular.forEach($scope.contexts, function(iterContext, index){
 			if (iterContext.context === ctx.context){
 				movingChannelIndex = index;
 			}
 		});
-
 		$scope.contexts.move(movingChannelIndex,0);
-
-
+		contextService.setDefaultCtx($scope.contexts[0]);
 	};
 
 	$scope.$on('contextadded', function(event,data){
 		console.log('context: '+data);
-		var context = $scope.find(data);
-		if (context === undefined || context === null){
-			console.log('which is new context...');
-			var newContext = {context: data, messages: []};
-			$scope.contexts.push(newContext);
-			$scope.contextActive = newContext;
-		}
+		contextService.addContext(data);		
 	});
 
 	$scope.addContext = function(){
-		$scope.plus = false;
+		var newcontext = $scope.newcontext;
+		tchatService.addContext(newcontext, function(done){
+			console.log('done adding context: '+done);
+			$scope.newcontext = '';
+			$scope.toggleMenu = false;
+			contextService.addContext(done);
+
+		});
+		
 	};
 
 	$scope.show = function(ctx){
@@ -46,17 +45,13 @@ angular.module('tchat-app').controller('navigationController',  ['$scope', '$fil
 			return true;
 		}
 		return false;
-	}
+	};
 
-	$scope.find = function(ctxname){
-		var contextFound;
-		angular.forEach($scope.contexts, function(context){
-			if (context.context === ctxname){
-				contextFound = context; 
-			}
-		});
-		return contextFound;
-	}
+	$scope.showAddNew = function(){
+		return $scope.toggleMenu;
+	};
+
+	
 
 	$scope.toggleRemove = function(context){
 		if (context.remove === undefined ||context.remove === null){

@@ -1,5 +1,5 @@
-section(auto-scroll, id="discussion")
-  div.message(ng-repeat="viesti in viestit track by $index",  class="message-animate", ng-class="{own: viesti.own, friend: !viesti.own}")
+section(auto-scroll, id="discussion",ng-controller="keskusteluController")
+  div.message(ng-repeat="viesti in viestictx.messages track by $index",  class="message-animate", ng-class="{own: isOwn(viesti), friend: !isOwn(viesti)}")
     div(ng-bind="viesti.message", class="text") 
     div(ng-bind="viesti.nick", class="nick")
-    div(ng-bind="viesti.timestamp |messageDateFilter", class="time")
+    div(ng-bind="viesti.timestamp | messageDateFilter", class="time")
