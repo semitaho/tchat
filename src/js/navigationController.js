@@ -27,11 +27,11 @@ angular.module('tchat-app').controller('navigationController',  ['$scope', '$fil
 
 	$scope.addContext = function(){
 		var newcontext = $scope.newcontext;
-		tchatService.addContext(newcontext, function(done){
+		tchatService.addContext(newcontext).then(function(done){
 			console.log('done adding context: '+done);
 			$scope.newcontext = '';
 			$scope.toggleMenu = false;
-			contextService.addContext(done);
+			contextService.addContext(done.data);
 
 		});
 		
@@ -48,7 +48,7 @@ angular.module('tchat-app').controller('navigationController',  ['$scope', '$fil
 	};
 
 	$scope.showAddNew = function(){
-		return $scope.toggleMenu;
+		return $scope.toggleMenu || $scope.contexts.length === 0;
 	};
 
 	

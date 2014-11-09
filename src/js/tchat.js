@@ -2,8 +2,8 @@ Array.prototype.move = function(from, to) {
     this.splice(to, 0, this.splice(from, 1)[0]);
 };
 
-var app= angular.module('tchat-app', ['ngAnimate', 'ngTouch', 'ui.router']);
-
+var app= angular.module('tchat-app', ['ngAnimate', 'angularFileUpload', 'ngTouch', 'ui.router']);
+app.constant('localStorageKeyContexts', 'contexts').constant('localStorageKeyDefault', 'defaultcontext');
 app.config(function($stateProvider, $urlRouterProvider){
 
 	$urlRouterProvider.otherwise('/register');
@@ -16,7 +16,8 @@ app.config(function($stateProvider, $urlRouterProvider){
 
 	$stateProvider.state('main', {
 		url: '/main',
-		templateUrl: 'main.html'
+		templateUrl: 'main.html',
+		controller:  'tchat-controller'
 	});
 });
 

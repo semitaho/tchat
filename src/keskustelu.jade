@@ -1,5 +1,9 @@
 section(auto-scroll, id="discussion",ng-controller="keskusteluController")
-  div.message(ng-repeat="viesti in viestictx.messages track by $index",  class="message-animate", ng-class="{own: isOwn(viesti), friend: !isOwn(viesti)}")
-    div(ng-bind="viesti.message", class="text") 
-    div(ng-bind="viesti.nick", class="nick")
+ 
+  div.message(ng-repeat="viesti in viestictx.messages track by $index",  class="message-animate", ng-class="{joined: viesti.type === 'join', own: isOwn(viesti), friend: isFriend(viesti)}")
+    div(ng-bind="viesti.message", class="text",ng-show="viesti.type === 'message' || viesti.type === 'undefined' || viesti.type === 'join'") 
+    a(target="_blank", href="{{viesti.relativepath}}") 
+      img.fileimg(ng-show="viesti.type === 'image'", ng-src="{{viesti.relativepath}}")
+
+    div(ng-bind="viesti.nick", class="nick", ng-show="viesti.type !== 'join'")
     div(ng-bind="viesti.timestamp | messageDateFilter", class="time")

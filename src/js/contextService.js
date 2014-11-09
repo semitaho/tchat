@@ -1,4 +1,4 @@
-angular.module('tchat-app').factory('contextService', function(){
+angular.module('tchat-app').factory('contextService', ['localStorageKeyContexts', 'localStorageKeyDefault',function(localStorageKeyContexts,localStorageKeyDefault){
   
   return {
     defaultContext : {messages: []},
@@ -15,20 +15,59 @@ angular.module('tchat-app').factory('contextService', function(){
       this.setDefaultCtx(newContext);
     },
 
-    addMessage : function(msgObject){
-      angular.forEach(this.contexts, function(contextObj){
-        if (contextObj.context === msgObject.context){
-          contextObj.messages.push(msgObject);
+    addJoin : function(joinObject){
+      joinObject.type = 'join';
+      joinObject.uuid = undefined;
+      joinObject.message = 'Keskusteluun saapui: '+joinObject.nick;
+      this.doAdd(joinObject);
+       
+    },
 
+    doAdd : function(object){
+      angular.forEach(this.contexts, function(contextObj){
+        if (contextObj.context === object.context){
+          contextObj.messages.push(object);
         }
       });
+      this.save();
+    },
 
-      console.log('default context: '+this.defaultContext.messages.length);
-  },
+    addMessage : function(msgObject){
+      msgObject.type = 'message';
+      this.doAdd(msgObject);
+    },
+
+    addImage : function(msgObject){
+      msgObject.type = 'image';
+       this.doAdd(msgObject);
+    },
     setDefaultCtx : function(context){
       this.defaultContext.context = context.context;
       this.defaultContext.messages = context.messages;
       console.log('default context: '+angular.toJson(this.defaultContext));
+    },
+
+    load: function(){
+      if (localStorage){
+        var items = localStorage.getItem(localStorageKeyContexts);
+        if (items !== null){
+          return angular.fromJson(items);
+        }
+      }
+      return null;
+    },
+
+    loadDefault : function(){
+      return localStorage.getItem(localStorageKeyDefault);
+    },
+
+    save : function(){
+      if (localStorage){
+        localStorage.setItem(localStorageKeyContexts, angular.toJson(this.contexts));
+        if (this.defaultContext){
+           localStorage.setItem(localStorageKeyDefault, this.defaultContext.context);
+        }
+      }
     },
 
     find  : function(ctxname){
@@ -41,4 +80,4 @@ angular.module('tchat-app').factory('contextService', function(){
       return contextFound;
     }
   };
-});
+}]);

@@ -1,6 +1,8 @@
 
 require('array.prototype.find');
 var express = require('express');
+var multer = require('multer');
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://tchatuser:tchat123@ds045970.mongolab.com:45970/tchatdb');
 
@@ -15,8 +17,9 @@ var User = mongoose.model('User', UserModel);
 
 var app = express();
 app.use(express.static(__dirname + '/../www'));
-var bodyParser = require('body-parser')
 app.use(bodyParser.json());
+app.use(multer({ dest: './www/uploads/'}))
+
 app.listen(9001);
 
 var router =express.Router();
@@ -36,7 +39,17 @@ app.post('/register', function(req, res){
 			console.log('something went wrong!');
 		} else {
 			if (done === null || done === undefined){
-				console.log('no results found...');
+				console.log('no results found: creating new:');
+				var user = new User({nick: body.nick, email : body.email});
+				user.save(function(err, storedUser){
+					if (err){
+						console.error(err);
+						return;
+					}
+					console.log('CREATED new: '+storedUser._id.toString());
+					res.write(storedUser._id.toString());
+					res.end();
+				});
 			} else {
 				console.log('got something: '+done._id);
 				res.write(done._id.toString());
@@ -76,23 +89,60 @@ app.get('/backend/:uuid', function(req,res){
 	console.log('text: '+JSON.stringify(text));
 	receive(text);
 	res.end();
-//	messages.push(text);
-//	res.send(text);
-	//var message = {own: true, message: text};
-//	receive(text);
-}).get('/addcontext/:uuid/:context', function(req, res){
-	var suscriber = getSuscriberByUuid(req.params.uuid);
-	var context  = req.params.context;
+}).post('/sendfile',function(req,res){
+	onImage(req.body,req.files);
+	res.end();
+}).post('/addcontext', function(req, res){
+	var body = req.body;
+	var suscriber = getSuscriberByUuid(body.uuid);
+	var context  = body.context;
 	console.log('context joining: '+context);
 	if (suscriber.contexts.indexOf(context) === -1){
 		suscriber.contexts.push(context);
 	} else {
 		console.log('WARN! context already exists: '+context);
 	}
+	onjoin(body);
 	res.write(context);
 	res.end();
 
 });
+
+function onjoin(body){
+	suscribers.forEach(function(suscriber){
+		if (suscriber.uuid !== body.uuid){
+			if (suscriber.contexts.indexOf(body.context) !== -1){
+				suscriber.response.write('id:'+Date.now()+'\n');
+				suscriber.response.write('event:onjoin\n');
+				suscriber.response.write('data:'+JSON.stringify( body )+'\n\n');
+			}
+		}
+	});
+}
+
+
+function onImage(body, file){
+	console.log('got imaage: '+body);
+	var cloneBody = JSON.parse( JSON.stringify( body ) );
+	cloneBody.relativepath = '/uploads/'+file.file.name;
+	var cloneBodyJSON = JSON.stringify(cloneBody);
+	suscribers.forEach(function(suscriber){
+		if (suscriber.uuid === body.uuid){
+			if (suscriber.contexts.indexOf(body.context) === -1){
+				console.log('not found: creating ctx: '+body.context);
+				suscriber.contexts.push(body.context);
+			}
+		}
+
+		if (suscriber.contexts.indexOf(body.context) !== -1){
+			suscriber.response.write('id:'+Date.now()+'\n');
+			suscriber.response.write('event:onimage\n');
+
+			suscriber.response.write('data:'+cloneBodyJSON+'\n\n');
+		}
+	});
+}
+
 
 function generateUUID(){
 	var d = new Date().getTime();
@@ -118,6 +168,7 @@ function getSuscriberByUuid(uuid){
 	});
 	return suscriber;
 }
+
 
 
 function receive(body){

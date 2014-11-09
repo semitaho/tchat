@@ -8,6 +8,7 @@ angular.module('tchat-app').controller('LoginController', ['$scope', '$state', '
     tchatService.register($scope.nick, $scope.email, function(done){
       console.log('all OK!: '+done);
       Auth.login(done, $scope.nick);
+      $state.go('main');
     });
  	}
 

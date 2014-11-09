@@ -7,4 +7,9 @@ angular.module('tchat-app').controller('keskusteluController', ['$scope', 'conte
 
   };
 
+   $scope.isFriend = function(viesti){
+    return viesti.uuid !== Auth.getId() && viesti.type !== 'join';
+
+  };
+
 }]); 
