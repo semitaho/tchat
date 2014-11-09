@@ -56,7 +56,10 @@ footer {
 
 .enter {
 	right: 0;
-	bottom: 0;
+	top: .3em;
+	background: url("../images/tick.png") no-repeat;
+	background-size: contain;
+	height: 100%;
 	width: 1.3em;
 	position: absolute;
 	padding-left: 0;
@@ -154,8 +157,8 @@ body, html {
 	margin: 0;
 }
 
-.contextBar li.ng-scope.ng-click-active {
-	background-color: white;
+.contextbar li.ng-click-active {
+	background-color: darkBlue;
 }
 
 .contextbar li a:hover {
@@ -164,12 +167,13 @@ body, html {
 
 .contextbar li.selected {
    	cursor: default;
+   	background: gray;
 }
 
 input.add {
 	left: 2.7em;
 	right: 0;
-	width: 40%;
+	width: 90%;
 	position: relative;
 }
 
@@ -199,8 +203,9 @@ input.add {
 }
 .tickimg {
 	max-height: 1em;
+	vertical-align: bottom;
 }
-.box, .enter {
+.box{
 	top:50%;
 	-webkit-transform: translateY(-50%);
   	-ms-transform: translateY(-50%);
@@ -346,8 +351,6 @@ input[type="text"]:focus {
 	width: 100%;
 	margin: 2em;
 	 border-color:#5a697b #5a697b #243242;
-
-	padding: 0;
 	-moz-border-radius: 1em;        
 	-webkit-border-radius: 1em;        
 	border-radius: 1em; 

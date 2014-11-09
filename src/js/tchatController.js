@@ -79,6 +79,7 @@ angular.module('tchat-app').controller('tchat-controller', ['$scope',  '$timeout
 		var viestiObject = $scope.createMessage($scope.message);
 		tchatService.communicate(viestiObject, $scope.receive);
 		$scope.message = '';
+		$scope.showEnter = false;
 	};
 
 	$scope.fileChange = function(files){
