@@ -1,7 +1,6 @@
 footer.actionbar
-	.media
-		img.fileimg(src="images/open-file.png", title="open file")
-		//input(type="file",name="file", ng-file-select="fileChange($files)",accept="image/*",capture)
-	span.box
-		input.text(type="text", ng-model="message", ng-enter, ng-focus="showEnter=true")
-	a.enter(ng-click="say();", ng-show="showEnter")
+  a.media(href="javascript:void(0);",ng-click="clickUpload();" )
+  input(id="upload", type="file",name="file", ng-file-select="fileChange($files)",accept="image/*",capture, ng-show="false")
+  span.box
+    input.text(type="text", ng-model="message", ng-enter, ng-focus="showEnter=true")
+  a.enter(ng-click="say();", ng-show="showEnter && message.length > 0")

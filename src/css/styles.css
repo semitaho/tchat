@@ -71,7 +71,7 @@ footer {
 
 }
 
-.enter.ng-click-active {
+.enter.ng-click-active, .media.ng-click-active {
 		background-color: darkBlue;
 
 }
@@ -180,7 +180,10 @@ input.add {
 .media {
 	margin-left: 0;
 	width: 5em;
-	position: absolute;
+	height: 4em;
+	background: url('../images/open-file.png') no-repeat;
+ 	background-size: contain;
+ 	position: absolute;
 }
 
 .action {
@@ -190,9 +193,9 @@ input.add {
 }
 
 
-.confirm, .action{
+.confirm, .action, .media{
 	vertical-align: middle;
-	top: 25%;
+	top: 50%;
 	-webkit-transform: translateY(-50%);
   	-ms-transform: translateY(-50%);
   	transform: translateY(-50%);

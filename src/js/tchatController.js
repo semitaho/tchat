@@ -89,5 +89,12 @@ angular.module('tchat-app').controller('tchat-controller', ['$scope',  '$timeout
 		}
 	};
 
+	$scope.clickUpload = function(){
+		//var querySelector = document.querySelector('#upload');
+		//var angularElement = angular.element(querySelector);
+		document.getElementById('upload').click();
+		//angularElement.trigger('click');
+	};
+
 	tchatService.suscribe($scope.connectedCallback, $scope.receive, $scope.imageCallback, $scope.joinCallback);
 }]);
