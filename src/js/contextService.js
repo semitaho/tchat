@@ -54,7 +54,7 @@ angular.module('tchat-app').factory('contextService', ['localStorageKeyContexts'
           return angular.fromJson(items);
         }
       }
-      return null;
+      return [];
     },
 
     loadDefault : function(){
